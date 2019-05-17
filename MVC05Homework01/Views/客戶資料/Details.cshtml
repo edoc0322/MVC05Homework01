@@ -1,0 +1,98 @@
+﻿@model MVC05Homework01.Models.客戶資料
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>客戶資料</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.客戶名稱)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.客戶名稱)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.統一編號)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.統一編號)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.電話)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.電話)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.傳真)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.傳真)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.地址)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.地址)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+<table class="table table-striped table-bordered table-hover">
+    <tr style="background-color:#E8EEF4;">
+        <td>姓名</td>
+        <td>職稱</td>
+        <td>電話</td>
+        <td>手機</td>
+        <td>Actions</td>
+    </tr>
+    @foreach (var item in Model.客戶聯絡人)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.姓名)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.職稱)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.電話)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.手機)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "客戶聯絡人", new { id = item.Id }, null) |
+                @Html.ActionLink("Details", "Details", "客戶聯絡人", new { id = item.Id }, null)  |
+                @Html.ActionLink("Delete", "Delete", "客戶聯絡人", new { id = item.Id }, null)
+            </td>
+        </tr>
+    }
+</table>
