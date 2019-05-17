@@ -1,4 +1,4 @@
-﻿@model MVC05Homework01.Models.客戶資料
+﻿@model MVC05Homework01.ViewModels.客戶資料ViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -10,6 +10,14 @@
     <h4>客戶資料</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.客戶分類)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.客戶分類)
+        </dd>
+
+
         <dt>
             @Html.DisplayNameFor(model => model.客戶名稱)
         </dt>

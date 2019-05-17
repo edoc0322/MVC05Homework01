@@ -13,7 +13,10 @@ namespace MVC05Homework01.Models
     {
         [Required]
         public int Id { get; set; }
-        
+
+        [Required]
+        public int 客戶分類 { get; set; }
+
         [StringLength(50, ErrorMessage="欄位長度不得大於 50 個字元")]
         [Required]
         public string 客戶名稱 { get; set; }

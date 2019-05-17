@@ -26,16 +26,34 @@ namespace MVC05Homework01.Controllers
         }
 
         // GET: 客戶資料
-        public ActionResult Index(string 客戶名稱, string currentSort, string sortOrder = "客戶名稱")
+        public ActionResult Index(int? 分類篩選, string 客戶名稱,  string currentSort, string sortOrder = "客戶名稱")
         {
             ViewBag.CurrentSort = sortOrder.Equals(currentSort) ? null : sortOrder;
+            ViewBag.分類 = new SelectList(Enum.GetValues(typeof(EnumModel.客戶分類)).Cast<EnumModel.客戶分類>().Select(v => new SelectListItem
+            {
+                Text = v.ToString(),
+                Value = ((int)v).ToString()
+            }).ToList(), "Value", "Text");
 
-            return View(rep.AllOfQuery(客戶名稱).Sort(sortOrder, currentSort));
+            var temp = rep.AllOfQuery(分類篩選,客戶名稱).Sort(sortOrder, currentSort)
+                       .Select(x => new ViewModels.客戶資料ViewModel()
+                       {
+                           Id = x.Id,
+                           客戶分類 = (EnumModel.客戶分類)x.客戶分類,
+                           客戶名稱 = x.客戶名稱,
+                           Email = x.Email,
+                           傳真 = x.傳真,
+                           地址 = x.地址,
+                           統一編號 = x.統一編號,
+                           電話 = x.電話,
+                           已刪除 = x.已刪除
+                       });
+            return View(temp);
         }
 
-        public FileResult Download(string 客戶名稱, string currentSort, string sortOrder = "客戶名稱")
+        public FileResult Download(int? 分類篩選,string 客戶名稱, string currentSort, string sortOrder = "客戶名稱")
         {
-            var 客戶資料 = rep.AllOfQuery(客戶名稱).Sort(sortOrder, currentSort).Select(x =>
+            var 客戶資料 = rep.AllOfQuery(分類篩選,客戶名稱).Sort(sortOrder, currentSort).Select(x =>
             new ViewModels.客戶資料ExportViewModel
             {
                 客戶名稱 = x.客戶名稱,
@@ -65,10 +83,23 @@ namespace MVC05Homework01.Controllers
             客戶資料.客戶聯絡人 = rep聯絡人.All().Where(x => x.客戶Id == id.Value).ToList();
 
             if (客戶資料 == null)
-            {
                 return HttpNotFound();
-            }
-            return View(客戶資料);
+
+            var 客戶資料ViewModel = new ViewModels.客戶資料ViewModel
+            {
+                Id = 客戶資料.Id,
+                客戶分類 = (EnumModel.客戶分類)客戶資料.客戶分類,
+                客戶名稱 = 客戶資料.客戶名稱,
+                電話 = 客戶資料.電話,
+                統一編號 = 客戶資料.統一編號,
+                已刪除 = 客戶資料.已刪除,
+                地址 = 客戶資料.地址,
+                Email = 客戶資料.Email,
+                傳真 = 客戶資料.傳真,
+                客戶聯絡人 = 客戶資料.客戶聯絡人
+            };
+
+            return View(客戶資料ViewModel);
         }
 
         // GET: 客戶資料/Create
@@ -82,16 +113,29 @@ namespace MVC05Homework01.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email")] 客戶資料 客戶資料)
+        public ActionResult Create([Bind(Include = "Id,客戶分類,客戶名稱,統一編號,電話,傳真,地址,Email")] ViewModels.客戶資料ViewModel 客戶資料ViewModel)
         {
             if (ModelState.IsValid)
             {
+                var 客戶資料 = new 客戶資料
+                {
+                    Id = 客戶資料ViewModel.Id,
+                    客戶分類 = (int)客戶資料ViewModel.客戶分類,
+                    客戶名稱 = 客戶資料ViewModel.客戶名稱,
+                    Email = 客戶資料ViewModel.Email,
+                    傳真 = 客戶資料ViewModel.傳真,
+                    地址 = 客戶資料ViewModel.地址,
+                    統一編號 = 客戶資料ViewModel.統一編號,
+                    電話 = 客戶資料ViewModel.電話,
+                    已刪除 = false
+                };
+
                 rep.Add(客戶資料);
                 rep.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
 
-            return View(客戶資料);
+            return View(客戶資料ViewModel);
         }
 
         // GET: 客戶資料/Edit/5
@@ -104,7 +148,21 @@ namespace MVC05Homework01.Controllers
             var 客戶資料 = rep.Find(id.Value);
             if (客戶資料 == null)
                 return HttpNotFound();
-            return View(客戶資料);
+
+            var 客戶資料ViewModel = new ViewModels.客戶資料ViewModel
+            {
+                Id = 客戶資料.Id,
+                客戶分類 = (EnumModel.客戶分類)客戶資料.客戶分類,
+                客戶名稱 = 客戶資料.客戶名稱,
+                電話 = 客戶資料.電話,
+                統一編號 = 客戶資料.統一編號,
+                已刪除 = 客戶資料.已刪除,
+                地址 = 客戶資料.地址,
+                Email = 客戶資料.Email,
+                傳真 = 客戶資料.傳真
+            };
+
+            return View(客戶資料ViewModel);
         }
 
         // POST: 客戶資料/Edit/5
@@ -112,15 +170,28 @@ namespace MVC05Homework01.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email,已刪除")] 客戶資料 客戶資料)
+        public ActionResult Edit([Bind(Include = "Id,客戶分類,客戶名稱,統一編號,電話,傳真,地址,Email,已刪除")] ViewModels.客戶資料ViewModel 客戶資料ViewModel)
         {
             if (ModelState.IsValid)
             {
+                var 客戶資料 = new 客戶資料
+                {
+                    Id = 客戶資料ViewModel.Id,
+                    客戶分類 = (int)客戶資料ViewModel.客戶分類,
+                    客戶名稱 = 客戶資料ViewModel.客戶名稱,
+                    Email = 客戶資料ViewModel.Email,
+                    傳真 = 客戶資料ViewModel.傳真,
+                    地址 = 客戶資料ViewModel.地址,
+                    統一編號 = 客戶資料ViewModel.統一編號,
+                    電話 = 客戶資料ViewModel.電話,
+                    已刪除 = false
+                };
+
                 rep.UnitOfWork.Context.Entry(客戶資料).State = EntityState.Modified;
                 rep.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
-            return View(客戶資料);
+            return View(客戶資料ViewModel);
         }
 
         // GET: 客戶資料/Delete/5
@@ -133,7 +204,20 @@ namespace MVC05Homework01.Controllers
             var 客戶資料 = rep.Find(id.Value);
             if (客戶資料 == null)
                 return HttpNotFound();
-            return View(客戶資料);
+            var 客戶資料ViewModel = new ViewModels.客戶資料ViewModel
+            {
+                Id = 客戶資料.Id,
+                客戶分類 = (EnumModel.客戶分類)客戶資料.客戶分類,
+                客戶名稱 = 客戶資料.客戶名稱,
+                Email = 客戶資料.Email,
+                傳真 = 客戶資料.傳真,
+                地址 = 客戶資料.地址,
+                統一編號 = 客戶資料.統一編號,
+                電話 = 客戶資料.電話,
+                已刪除 = 客戶資料.已刪除
+            };
+
+            return View(客戶資料ViewModel);
         }
 
         // POST: 客戶資料/Delete/5
@@ -141,6 +225,7 @@ namespace MVC05Homework01.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            //model.id = viewmodel.id 不用mapper了...
             var 客戶資料 = rep.Find(id);
             //rep.Delete(客戶資料);
             客戶資料.已刪除 = true;

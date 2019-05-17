@@ -8,6 +8,20 @@ namespace MVC05Homework01.Extensions
 {
     public static class IQuerableExtension
     {
+        public static IOrderedEnumerable<客戶資料> Sort(this IQueryable<客戶資料> query, string sortOrder, string currentSort)
+        {
+            Func<客戶資料, object> func;
+            if (!(new 客戶資料().GetType().GetProperty(sortOrder) == null))
+                func = (客戶資料 x) => typeof(客戶資料).GetProperty(sortOrder).GetValue(x, null);
+            else
+                func = (客戶資料 x) => x.客戶名稱;
+
+            if (sortOrder.Equals(currentSort))
+                return query.OrderByDescending(func);
+            else
+                return query.OrderBy(func);
+        }
+
         public static IOrderedEnumerable<客戶聯絡人> Sort(this IQueryable<客戶聯絡人> query, string sortOrder, string currentSort)
         {
             Func<客戶聯絡人, object> func;
@@ -22,19 +36,7 @@ namespace MVC05Homework01.Extensions
                 return query.OrderBy(func);
         }
 
-        public static IOrderedEnumerable<客戶資料> Sort(this IQueryable<客戶資料> query, string sortOrder, string currentSort)
-        {
-            Func<客戶資料, object> func;
-            if (!(new 客戶資料().GetType().GetProperty(sortOrder) == null))
-                func = (客戶資料 x) => typeof(客戶資料).GetProperty(sortOrder).GetValue(x, null);
-            else
-                func = (客戶資料 x) => x.客戶名稱;
 
-            if (sortOrder.Equals(currentSort))
-                return query.OrderByDescending(func);
-            else
-                return query.OrderBy(func);
-        }
 
         // public static IOrderedQueryable<T> Sort(IQueryable<T> query, string currentSort, string sortOrder)
         // {
