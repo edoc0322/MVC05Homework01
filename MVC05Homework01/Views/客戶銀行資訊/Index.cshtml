@@ -6,6 +6,12 @@
 
 <h2>Index</h2>
 
+@using (Html.BeginForm())
+{
+    @Html.TextBox("帳戶名稱", "", new { @class = "form-control" });
+    <input type="submit" value="Search" />
+}
+
 @Html.ActionLink("匯出資料", "Download", new { sortOrder = ViewBag.sortOrder, currentSort = ViewBag.CurrentSort })
 
 <p>

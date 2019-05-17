@@ -23,9 +23,9 @@ namespace MVC05Homework01.Controllers
             rep客戶 = RepositoryHelper.Get客戶資料Repository(rep.UnitOfWork);
         }
         // GET: 客戶銀行資訊
-        public ActionResult Index()
+        public ActionResult Index(string 帳戶名稱)
         {
-            var 客戶銀行資訊 = rep.AllOfNonDel().Include(p => p.客戶資料);
+            var 客戶銀行資訊 = rep.AllOfQuery(帳戶名稱).Include(p => p.客戶資料);
             return View(客戶銀行資訊.ToList());
         }
         public FileResult Download()
