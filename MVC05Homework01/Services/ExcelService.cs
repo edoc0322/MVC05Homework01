@@ -10,13 +10,10 @@ using System.Web.Mvc;
 
 namespace MVC05Homework01.Services
 {
-
-
     public class ExcelService<T> where T : class
     {
         public string FileName { get; set; }
         public string SheetName { get; set; }
-
 
         //public MemoryStream ExportExcel(IEnumerable<T> exportData, string FileName, string SheetName)
         //{
@@ -90,6 +87,5 @@ namespace MVC05Homework01.Services
 
         //    return null;
         //}
-
     }
 }

@@ -30,9 +30,7 @@ namespace MVC05Homework01.Extensions
 
                     //將 List 中的 名稱 與 型別，定義 DataTable 中的欄位 名稱 與 型別
                     foreach (var item1 in PI_List)
-                    {
                         dt.Columns.Add(item1.Name, item1.PropertyType);
-                    }
                 }
 
                 //在 DataTable 中建立一個新的列
