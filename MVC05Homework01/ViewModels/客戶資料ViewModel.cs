@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using MVC05Homework01.Models;
 namespace MVC05Homework01.ViewModels
 {
@@ -16,6 +17,7 @@ namespace MVC05Homework01.ViewModels
 
         [StringLength(50, ErrorMessage = "欄位長度不得大於 50 個字元")]
         [Required]
+        [Remote("CustomNameRepeatCheck", "Api", ErrorMessage = "客戶名稱不可重複")]
         public string 客戶名稱 { get; set; }
 
         [StringLength(8, ErrorMessage = "欄位長度不得大於 8 個字元")]

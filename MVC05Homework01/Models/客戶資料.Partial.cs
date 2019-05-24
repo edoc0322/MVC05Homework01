@@ -3,7 +3,8 @@ namespace MVC05Homework01.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+    using System.Web.Mvc;
+
     [MetadataType(typeof(客戶資料MetaData))]
     public partial class 客戶資料
     {

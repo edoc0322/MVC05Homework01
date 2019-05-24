@@ -162,6 +162,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Attribute\DataTypes\MobilePhoneNumberAttribute.cs" />
+    <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\客戶聯絡人Controller.cs" />
@@ -330,6 +331,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Api\" />
     <Folder Include="Views\Download\" />
   </ItemGroup>
   <ItemGroup>

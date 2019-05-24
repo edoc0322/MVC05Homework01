@@ -18,7 +18,7 @@ namespace MVC05Homework01.ActionFilters
             }
             else
             {
-                var rep客戶 = RepositoryHelper.Get客戶聯絡人Repository();
+                var rep客戶 = RepositoryHelper.Get客戶資料Repository();
                 filterContext.Controller.ViewBag.客戶Id = new SelectList(rep客戶.All(), "Id", "客戶名稱");
             }
             base.OnActionExecuting(filterContext);
