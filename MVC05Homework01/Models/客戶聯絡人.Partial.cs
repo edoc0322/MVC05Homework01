@@ -24,7 +24,7 @@ namespace MVC05Homework01.Models
         [Required]
         public int Id { get; set; }
         [Required]
-        [Remote("EmailRepeatCheckOnCustomer", "Api", AdditionalFields = "客戶Id", ErrorMessage = "同一個客戶的聯絡人Email不可重複")]
+        [Remote("客戶的聯絡人Email重覆確認", "Api", AdditionalFields = "客戶Id", ErrorMessage = "同一個客戶的聯絡人Email不可重複")]
         public int 客戶Id { get; set; }
 
         [StringLength(50, ErrorMessage = "欄位長度不得大於 50 個字元")]
@@ -37,7 +37,7 @@ namespace MVC05Homework01.Models
 
         [StringLength(250, ErrorMessage = "欄位長度不得大於 250 個字元")]
         [Required]
-        [Remote("EmailRepeatCheckOnCustomer", "Api",AdditionalFields = "客戶Id",ErrorMessage ="同一個客戶的聯絡人Email不可重複")]
+        [Remote("客戶的聯絡人Email重覆確認", "Api",AdditionalFields = "客戶Id",ErrorMessage ="同一個客戶的聯絡人Email不可重複")]
         public string Email { get; set; }
 
         [MobilePhoneNumber]
