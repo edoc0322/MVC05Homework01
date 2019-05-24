@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using MVC05Homework01.ActionFilters;
 using MVC05Homework01.Extensions;
 using MVC05Homework01.Models;
 using Newtonsoft.Json;
@@ -25,16 +26,11 @@ namespace MVC05Homework01.Controllers
             rep聯絡人 = RepositoryHelper.Get客戶聯絡人Repository(rep.UnitOfWork);
         }
 
+        [取得分類清單]
         // GET: 客戶資料
         public ActionResult Index(int? 分類篩選, string 客戶名稱,  string currentSort, string sortOrder = "客戶名稱")
         {
             ViewBag.CurrentSort = sortOrder.Equals(currentSort) ? null : sortOrder;
-            ViewBag.分類 = new SelectList(Enum.GetValues(typeof(EnumModel.客戶分類)).Cast<EnumModel.客戶分類>().Select(v => new SelectListItem
-            {
-                Text = v.ToString(),
-                Value = ((int)v).ToString()
-            }).ToList(), "Value", "Text");
-
             var temp = rep.AllOfQuery(分類篩選,客戶名稱).Sort(sortOrder, currentSort)
                        .Select(x => new ViewModels.客戶資料ViewModel()
                        {
