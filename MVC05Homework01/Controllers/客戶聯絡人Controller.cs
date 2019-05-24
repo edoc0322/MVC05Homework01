@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using MVC05Homework01.ActionFilters;
 using MVC05Homework01.Extensions;
 using MVC05Homework01.Models;
 
@@ -49,19 +50,18 @@ namespace MVC05Homework01.Controllers
         public ActionResult Details(int? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+
             var 客戶聯絡人 = rep.Find(id.Value);
             if (客戶聯絡人 == null)
                 return HttpNotFound();
             return View(客戶聯絡人);
         }
 
+        [聯絡人資訊取得客戶ID清單]
         // GET: 客戶聯絡人/Create
         public ActionResult Create()
         {
-            ViewBag.客戶Id = new SelectList(rep客戶.All(), "Id", "客戶名稱");
             return View();
         }
 
@@ -70,6 +70,7 @@ namespace MVC05Homework01.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [聯絡人資訊取得客戶ID清單]
         public ActionResult Create([Bind(Include = "Id,客戶Id,職稱,姓名,Email,手機,電話")] 客戶聯絡人 客戶聯絡人)
         {
             if (ModelState.IsValid)
@@ -79,21 +80,17 @@ namespace MVC05Homework01.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.客戶Id = new SelectList(rep客戶.All(), "Id", "客戶名稱", 客戶聯絡人.客戶Id);
             return View(客戶聯絡人);
         }
-
+        [聯絡人資訊取得客戶ID清單]
         // GET: 客戶聯絡人/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             var 客戶聯絡人 = rep.Find(id.Value);
             if (客戶聯絡人 == null)
                 return HttpNotFound();
-            ViewBag.客戶Id = new SelectList(rep客戶.All(), "Id", "客戶名稱", 客戶聯絡人.客戶Id);
             return View(客戶聯絡人);
         }
 
@@ -102,6 +99,7 @@ namespace MVC05Homework01.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [聯絡人資訊取得客戶ID清單]
         public ActionResult Edit([Bind(Include = "Id,客戶Id,職稱,姓名,Email,手機,電話,已刪除")] 客戶聯絡人 客戶聯絡人)
         {
             if (ModelState.IsValid)
@@ -110,7 +108,6 @@ namespace MVC05Homework01.Controllers
                 rep.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
-            ViewBag.客戶Id = new SelectList(rep客戶.All(), "Id", "客戶名稱", 客戶聯絡人.客戶Id);
             return View(客戶聯絡人);
         }
 
@@ -118,9 +115,7 @@ namespace MVC05Homework01.Controllers
         public ActionResult Delete(int? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             var 客戶聯絡人 = rep.Find(id.Value);
             if (客戶聯絡人 == null)
                 return HttpNotFound();

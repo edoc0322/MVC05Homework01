@@ -156,6 +156,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionFilters\取得分類清單.cs" />
+    <Compile Include="ActionFilters\聯絡人資訊取得客戶ID清單.cs" />
+    <Compile Include="ActionFilters\銀行資訊取得客戶ID清單.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />

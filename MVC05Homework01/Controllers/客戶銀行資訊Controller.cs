@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using MVC05Homework01.ActionFilters;
 using MVC05Homework01.Extensions;
 using MVC05Homework01.Models;
 
@@ -59,9 +60,9 @@ namespace MVC05Homework01.Controllers
         }
 
         // GET: 客戶銀行資訊/Create
+        [銀行資訊取得客戶ID清單]
         public ActionResult Create()
         {
-            ViewBag.客戶Id = new SelectList(rep客戶.All(), "Id", "客戶名稱");
             return View();
         }
 
@@ -69,6 +70,7 @@ namespace MVC05Homework01.Controllers
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
+        [銀行資訊取得客戶ID清單]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,客戶Id,銀行名稱,銀行代碼,分行代碼,帳戶名稱,帳戶號碼")] 客戶銀行資訊 客戶銀行資訊)
         {
@@ -78,11 +80,10 @@ namespace MVC05Homework01.Controllers
                 rep.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.客戶Id = new SelectList(rep客戶.All(), "Id", "客戶名稱", 客戶銀行資訊.客戶Id);
             return View(客戶銀行資訊);
         }
 
+        [銀行資訊取得客戶ID清單]
         // GET: 客戶銀行資訊/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -93,7 +94,6 @@ namespace MVC05Homework01.Controllers
             var 客戶銀行資訊 = rep.Find(id.Value);
             if (客戶銀行資訊 == null)
                 return HttpNotFound();
-            ViewBag.客戶Id = new SelectList(rep客戶.All(), "Id", "客戶名稱", 客戶銀行資訊.客戶Id);
             return View(客戶銀行資訊);
         }
 
@@ -102,6 +102,7 @@ namespace MVC05Homework01.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [銀行資訊取得客戶ID清單]
         public ActionResult Edit([Bind(Include = "Id,客戶Id,銀行名稱,銀行代碼,分行代碼,帳戶名稱,帳戶號碼,已刪除")] 客戶銀行資訊 客戶銀行資訊)
         {
             if (ModelState.IsValid)
@@ -110,7 +111,6 @@ namespace MVC05Homework01.Controllers
                 rep.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
-            ViewBag.客戶Id = new SelectList(rep客戶.All(), "Id", "客戶名稱", 客戶銀行資訊.客戶Id);
             return View(客戶銀行資訊);
         }
 
@@ -118,9 +118,8 @@ namespace MVC05Homework01.Controllers
         public ActionResult Delete(int? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+
             var 客戶銀行資訊 = rep.Find(id.Value);
             if (客戶銀行資訊 == null)
                 return HttpNotFound();
