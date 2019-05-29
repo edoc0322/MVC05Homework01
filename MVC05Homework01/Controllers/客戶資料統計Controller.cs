@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace MVC05Homework01.Controllers
 {
-    public class 客戶資料統計Controller : Controller
+    public class 客戶資料統計Controller : BaseController
     {
         private 客戶資料統計Repository rep;
         public 客戶資料統計Controller()

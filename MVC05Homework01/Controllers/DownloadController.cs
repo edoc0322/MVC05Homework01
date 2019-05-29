@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace MVC05Homework01.Controllers
 {
-    public class DownloadController : Controller
+    public class DownloadController : BaseController
     {
         // GET: Download
         public ActionResult Index()

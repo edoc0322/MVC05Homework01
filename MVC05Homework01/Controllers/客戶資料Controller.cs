@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 using PagedList;
 namespace MVC05Homework01.Controllers
 {
-    public class 客戶資料Controller : Controller
+    public class 客戶資料Controller : BaseController
     {
         private 客戶資料Repository rep;
         private 客戶聯絡人Repository rep聯絡人;

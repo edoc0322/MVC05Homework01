@@ -12,7 +12,7 @@ using MVC05Homework01.Models;
 
 namespace MVC05Homework01.Controllers
 {
-    public class 客戶銀行資訊Controller : Controller
+    public class 客戶銀行資訊Controller : BaseController
     {
         private 客戶銀行資訊Repository rep;
         private 客戶資料Repository rep客戶;

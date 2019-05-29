@@ -155,6 +155,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionFilters\Action效能計時器.cs" />
     <Compile Include="ActionFilters\取得分類清單.cs" />
     <Compile Include="ActionFilters\聯絡人資訊取得客戶ID清單.cs" />
     <Compile Include="ActionFilters\銀行資訊取得客戶ID清單.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Attribute\DataTypes\MobilePhoneNumberAttribute.cs" />
     <Compile Include="Controllers\ApiController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\客戶聯絡人Controller.cs" />
@@ -328,10 +330,12 @@
     <Content Include="Views\客戶銀行資訊\Edit.cshtml" />
     <Content Include="Views\客戶銀行資訊\Index.cshtml" />
     <Content Include="Views\客戶資料統計\Index.cshtml" />
+    <Content Include="Views\客戶聯絡人\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Api\" />
+    <Folder Include="Views\Base\" />
     <Folder Include="Views\Download\" />
   </ItemGroup>
   <ItemGroup>

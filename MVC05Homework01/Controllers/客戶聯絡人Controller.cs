@@ -12,7 +12,7 @@ using MVC05Homework01.Models;
 
 namespace MVC05Homework01.Controllers
 {
-    public class 客戶聯絡人Controller : Controller
+    public class 客戶聯絡人Controller : BaseController
     {
         private 客戶聯絡人Repository rep;
         private 客戶資料Repository rep客戶;
@@ -29,6 +29,14 @@ namespace MVC05Homework01.Controllers
             ViewBag.職稱篩選 = new SelectList(items: rep.Get職稱List().ToList());
             var 客戶聯絡人 = rep.JobTitleQuery(職稱篩選).Include(p => p.客戶資料).Sort(sortOrder, currentSort);
             return View(客戶聯絡人.ToList());
+        }
+
+        [ChildActionOnly]
+        [Route("List/{客戶ID}")]
+        public ActionResult List(int 客戶ID)
+        {
+            var model = rep.All().Where(x => x.客戶Id == 客戶ID);
+            return PartialView(model);
         }
 
         public FileResult Download(string 職稱篩選, string currentSort, string sortOrder = "姓名")
