@@ -1,4 +1,5 @@
 using System.Data.Entity;
+using System.Diagnostics;
 
 namespace MVC05Homework01.Models
 {
@@ -13,7 +14,7 @@ namespace MVC05Homework01.Models
 
 		public void Commit()
 		{
-			Context.SaveChanges();
+            Context.SaveChanges();
 		}
 		
 		public bool LazyLoadingEnabled
