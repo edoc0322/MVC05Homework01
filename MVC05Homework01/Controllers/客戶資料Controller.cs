@@ -29,6 +29,7 @@ namespace MVC05Homework01.Controllers
 
         public ActionResult CreateAccPwd(int? id)
         {
+
             var data = rep.Find(id.Value);
             data.帳號 = "qweerty0322";
             var sha256 = new System.Security.Cryptography.SHA256CryptoServiceProvider();//建立一個SHA256
@@ -45,6 +46,10 @@ namespace MVC05Homework01.Controllers
         // GET: 客戶資料
         public ActionResult Index(int? 分類篩選, string 客戶名稱, string currentSort, int Page = 1, string sortOrder = "客戶名稱")
         {
+            var idss = (System.Web.Security.FormsIdentity)User.Identity;
+            System.Web.Security.FormsAuthenticationTicket ticket = idss.Ticket;
+
+
             ViewBag.CurrentSort = sortOrder.Equals(currentSort) ? null : sortOrder;
 
             //var a =
@@ -187,7 +192,8 @@ namespace MVC05Homework01.Controllers
                 已刪除 = 客戶資料.已刪除,
                 地址 = 客戶資料.地址,
                 Email = 客戶資料.Email,
-                傳真 = 客戶資料.傳真
+                傳真 = 客戶資料.傳真,
+                帳號 = 客戶資料.帳號
             };
 
             return View(客戶資料ViewModel);
@@ -202,8 +208,21 @@ namespace MVC05Homework01.Controllers
         //public ActionResult Edit([Bind(Include = "Id,客戶分類,客戶名稱,統一編號,電話,傳真,地址,Email,已刪除")] ViewModels.客戶資料ViewModel 客戶資料ViewModel)
         {
             var 客戶資料 = rep.Find(id);
+
             if (TryUpdateModel<客戶資料>(客戶資料) && TryValidateModel(客戶資料))
             {
+                if (!string.IsNullOrEmpty(客戶資料.密碼))
+                {
+                    客戶資料.密碼 = new Services.LoginService().EncryPasswd(客戶資料.密碼);
+                }
+                else
+                {/*如果沒輸入密碼 就在把原本密碼存回去?*/
+                    var 客戶資料pwdCheck = RepositoryHelper.Get客戶資料Repository().Find(id);
+                    if (!string.IsNullOrEmpty(客戶資料pwdCheck.密碼))
+                        客戶資料.密碼 = 客戶資料pwdCheck.密碼;
+                }
+                //
+                //密碼 = new Services.LoginService().EncryPasswd(客戶資料.密碼)
                 rep.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
@@ -217,8 +236,14 @@ namespace MVC05Homework01.Controllers
                 客戶分類 = (EnumModel.客戶分類)客戶資料.客戶分類,
                 已刪除 = 客戶資料.已刪除,
                 統一編號 = 客戶資料.統一編號,
-                電話 = 客戶資料.電話
+                電話 = 客戶資料.電話,
+                帳號 = 客戶資料.帳號
             };
+            if (!string.IsNullOrEmpty(客戶資料.密碼))
+            {
+
+            }
+
             return View(客戶資料ViewModel);
 
             //如果Input沒有 FormCollection 那TryUpdateModel就會進行模型驗證，如果有就不會，就要搭配TryValidateModel 做模型驗證。

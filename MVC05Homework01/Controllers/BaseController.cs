@@ -8,7 +8,7 @@ namespace MVC05Homework01.Controllers
 {
     [Action效能計時器]
     [HandleError]
-    
+    [Authorize]
     public class BaseController : Controller
     {
 

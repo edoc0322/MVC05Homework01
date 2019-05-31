@@ -13,6 +13,12 @@ namespace MVC05Homework01.ViewModels
         public int Id { get; set; }
 
         [Required]
+        public string 帳號 { get; set; }
+
+        public string 密碼 { get; set; }
+
+
+        [Required]
         [Range(1, 5, ErrorMessage = "必填選擇客戶分類")]
         public EnumModel.客戶分類 客戶分類 { get; set; }
 

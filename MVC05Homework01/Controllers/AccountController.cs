@@ -34,21 +34,24 @@ namespace MVC05Homework01.Controllers
             }
 
             //FormsAuthentication.RedirectFromLoginPage(model.帳號,false);
-            FormsAuthentication.SetAuthCookie(model.帳號, false);
+            //FormsAuthentication.SetAuthCookie(model.帳號, false);
+            //return Redirect(FormsAuthentication.GetRedirectUrl(model.帳號, false));
 
-            //  var ticket = new System.Web.Security.FormsAuthenticationTicket(
-            //      version: 1,
-            //      name: model.帳號, //可以放使用者Id
-            //      issueDate: DateTime.UtcNow,//現在UTC時間
-            //      expiration: DateTime.UtcNow.AddMinutes(30),//Cookie有效時間=現在時間往後+30分鐘
-            //      isPersistent: true,// 是否要記住我 true or false
-            //      userData: "超級賽亞人", //可以放使用者角色名稱
-            //      cookiePath: System.Web.Security.FormsAuthentication.FormsCookiePath);
-            //  var encryptedTicket = FormsAuthentication.Encrypt(ticket); //把驗證的表單加密
-            //  var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
-            //  Response.Cookies.Add(cookie);
-            //return RedirectToAction("Index", "Home");
-            return Redirect(FormsAuthentication.GetRedirectUrl(model.帳號, false));
+
+
+            var ticket = new System.Web.Security.FormsAuthenticationTicket(
+                version: 1,
+                name: model.帳號, //可以放使用者Id
+                issueDate: DateTime.UtcNow,//現在UTC時間
+                expiration: DateTime.UtcNow.AddMinutes(30),//Cookie有效時間=現在時間往後+30分鐘
+                isPersistent: true,// 是否要記住我 true or false
+                userData: "超級賽亞人", //可以放使用者角色名稱
+                cookiePath: System.Web.Security.FormsAuthentication.FormsCookiePath);
+            var encryptedTicket = FormsAuthentication.Encrypt(ticket); //把驗證的表單加密
+            //var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+            Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket));
+            return RedirectToAction("Index", "Home");
+            //return Redirect(FormsAuthentication.GetRedirectUrl(ticket.Name, false));
         }
 
         public ActionResult Logout()

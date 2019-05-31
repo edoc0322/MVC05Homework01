@@ -4,15 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace MVC05Homework01.Controllers
 {
-    [Authorize]
     public class HomeController : BaseController
     {
         public ActionResult Index()
         {
-            System.Web.Security.FormsIdentity id = (System.Web.Security.FormsIdentity)User.Identity;
+            var a = "";
+            if (HttpContext.User != null && HttpContext.User.Identity is FormsIdentity)
+            {
+                var b = "";
+            }
+
+
+            var id = (System.Web.Security.FormsIdentity)User.Identity;
             System.Web.Security.FormsAuthenticationTicket ticket = id.Ticket;
 
             return View();
