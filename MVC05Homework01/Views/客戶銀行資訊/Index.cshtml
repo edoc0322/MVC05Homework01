@@ -1,4 +1,6 @@
-﻿@model IEnumerable<MVC05Homework01.Models.客戶銀行資訊>
+﻿@using X.PagedList;
+@using X.PagedList.Mvc;
+@model IEnumerable<MVC05Homework01.Models.客戶銀行資訊>
 
 @{
     ViewBag.Title = "Index";
@@ -70,3 +72,10 @@
     }
 
 </table>
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }),
+    new X.PagedList.Mvc.Common.PagedListRenderOptionsBase
+    {
+        LiElementClasses=new [] {"page-item"},
+        PageClasses = new[] {"page-link" }
+    })
+

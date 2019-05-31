@@ -10,7 +10,8 @@ using MVC05Homework01.ActionFilters;
 using MVC05Homework01.Extensions;
 using MVC05Homework01.Models;
 using Newtonsoft.Json;
-using PagedList;
+using X.PagedList;
+using X.PagedList.Mvc;
 namespace MVC05Homework01.Controllers
 {
     public class 客戶資料Controller : BaseController
@@ -26,12 +27,43 @@ namespace MVC05Homework01.Controllers
             rep聯絡人 = RepositoryHelper.Get客戶聯絡人Repository(rep.UnitOfWork);
         }
 
+        public ActionResult CreateAccPwd(int? id)
+        {
+            var data = rep.Find(id.Value);
+            data.帳號 = "qweerty0322";
+            var sha256 = new System.Security.Cryptography.SHA256CryptoServiceProvider();//建立一個SHA256
+            byte[] source = System.Text.Encoding.Default.GetBytes("123456");//將字串轉為Byte[]
+            byte[] crypto = sha256.ComputeHash(source);//進行SHA256加密
+            string result = Convert.ToBase64String(crypto);//把加密後的字串從Byte[]轉為字串
+
+            data.密碼 = result;
+            rep.UnitOfWork.Commit();
+            return RedirectToAction("Index", "Home");
+        }
+
         [取得分類清單]
         // GET: 客戶資料
-        public ActionResult Index(int? 分類篩選, string 客戶名稱, string currentSort, string sortOrder = "客戶名稱")
+        public ActionResult Index(int? 分類篩選, string 客戶名稱, string currentSort, int Page = 1, string sortOrder = "客戶名稱")
         {
             ViewBag.CurrentSort = sortOrder.Equals(currentSort) ? null : sortOrder;
+
+            //var a =
+            //    rep.AllOfQuery(分類篩選, 客戶名稱).Sort(sortOrder, currentSort).ToPagedList(Page, 10)
+            //    .Select(x => new ViewModels.客戶資料ViewModel
+            //    {
+            //        Id = x.Id,
+            //        客戶分類 = (EnumModel.客戶分類)x.客戶分類,
+            //        客戶名稱 = x.客戶名稱,
+            //        Email = x.Email,
+            //        傳真 = x.傳真,
+            //        地址 = x.地址,
+            //        統一編號 = x.統一編號,
+            //        電話 = x.電話,
+            //        已刪除 = x.已刪除
+            //    });
+
             var temp = rep.AllOfQuery(分類篩選, 客戶名稱).Sort(sortOrder, currentSort)
+                       //.ToPagedList<ViewModels.客戶資料ViewModel>()
                        .Select(x => new ViewModels.客戶資料ViewModel()
                        {
                            Id = x.Id,
@@ -44,7 +76,8 @@ namespace MVC05Homework01.Controllers
                            電話 = x.電話,
                            已刪除 = x.已刪除
                        });
-            return View(temp);
+
+            return View(temp.ToPagedList(Page, 10));
         }
 
         public FileResult Download(int? 分類篩選, string 客戶名稱, string currentSort, string sortOrder = "客戶名稱")

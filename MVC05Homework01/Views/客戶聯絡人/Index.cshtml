@@ -1,4 +1,6 @@
-﻿@model IEnumerable<MVC05Homework01.Models.客戶聯絡人>
+﻿@using X.PagedList;
+@using X.PagedList.Mvc;
+@model IEnumerable<MVC05Homework01.ViewModels.客戶聯絡人批次更新ViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -17,56 +19,79 @@
     <input type="submit" value="Search" class="form-control" />
 }
 @Html.ActionLink("匯出資料", "Download", new { sortOrder = ViewBag.sortOrder, currentSort = ViewBag.CurrentSort })
-<table class="table">
-    <tr>
-        <th>
-            @Html.ActionLink("職稱", "Index", new { sortOrder = "職稱", currentSort = ViewBag.CurrentSort })
-        </th>
-        <th>
-            @Html.ActionLink("姓名", "Index", new { sortOrder = "姓名", currentSort = ViewBag.CurrentSort })
-        </th>
-        <th>
-            @Html.ActionLink("Email", "Index", new { sortOrder = "Email", currentSort = ViewBag.CurrentSort })
-        </th>
-        <th>
-            @Html.ActionLink("手機", "Index", new { sortOrder = "手機", currentSort = ViewBag.CurrentSort })
-        </th>
-        <th>
-            @Html.ActionLink("電話", "Index", new { sortOrder = "電話", currentSort = ViewBag.CurrentSort })
-        </th>
-        <th>
-            @Html.ActionLink("客戶名稱", "Index", new { sortOrder = "客戶名稱", currentSort = ViewBag.CurrentSort })
-        </th>
-        <th>Actions</th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.職稱)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.姓名)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.手機)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.電話)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.客戶資料.客戶名稱)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
+            <th>
+                @Html.ActionLink("職稱", "Index", new { sortOrder = "職稱", currentSort = ViewBag.CurrentSort })
+            </th>
+            <th>
+                @Html.ActionLink("姓名", "Index", new { sortOrder = "姓名", currentSort = ViewBag.CurrentSort })
+            </th>
+            <th>
+                @Html.ActionLink("Email", "Index", new { sortOrder = "Email", currentSort = ViewBag.CurrentSort })
+            </th>
+            <th>
+                @Html.ActionLink("手機", "Index", new { sortOrder = "手機", currentSort = ViewBag.CurrentSort })
+            </th>
+            <th>
+                @Html.ActionLink("電話", "Index", new { sortOrder = "電話", currentSort = ViewBag.CurrentSort })
+            </th>
+            <th>
+                @Html.ActionLink("客戶名稱", "Index", new { sortOrder = "客戶名稱", currentSort = ViewBag.CurrentSort })
+            </th>
+            <th>Actions</th>
         </tr>
-    }
 
-</table>
+        @{
+            var data = Model.ToArray();
+        }
+        @for (int i = 0; i < data.Length; i++)
+        {
+            @Html.HiddenFor(modelItem => data[i].Id)
+            @Html.HiddenFor(modelItem => data[i].客戶Id)
+            <tr>
+                <td>
+                    @Html.EditorFor(modelItem => data[i].職稱)
+                    @Html.ValidationMessageFor(modelItem => data[i].職稱, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => data[i].姓名)
+                    @Html.ValidationMessageFor(modelItem => data[i].姓名, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => data[i].Email)
+                    @Html.ValidationMessageFor(modelItem => data[i].Email, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    @Html.EditorFor(modelItem => data[i].手機)
+                    @Html.ValidationMessageFor(modelItem => data[i].手機, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    @Html.EditorFor(modelItem => data[i].電話)
+                    @Html.ValidationMessageFor(modelItem => data[i].電話, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => data[i].客戶資料.客戶名稱)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = data[i].Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = data[i].Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = data[i].Id })
+                </td>
+            </tr>
+        }
+    </table>
+
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }),
+    new X.PagedList.Mvc.Common.PagedListRenderOptionsBase
+    {
+        LiElementClasses=new [] {"page-item"},
+        PageClasses = new[] {"page-link" }
+    })
+
+    <input type="submit" value="批次更新" />
+
+}

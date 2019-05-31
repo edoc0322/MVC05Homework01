@@ -15,7 +15,11 @@ namespace MVC05Homework01.Models
         [Required]
         public int Id { get; set; }
 
+        public string 帳號 { get; set; }
+        public string 密碼 { get; set; }
+
         [Required]
+        [Range(1,5,ErrorMessage ="必填選擇客戶分類")]
         public int 客戶分類 { get; set; }
 
         [StringLength(50, ErrorMessage="欄位長度不得大於 50 個字元")]

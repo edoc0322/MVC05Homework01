@@ -18,7 +18,6 @@ namespace MVC05Homework01.Models
         public 客戶資料Entities()
             : base("name=客戶資料Entities")
         {
-
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

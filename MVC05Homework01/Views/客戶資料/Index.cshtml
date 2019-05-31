@@ -1,4 +1,6 @@
-﻿@model IEnumerable<MVC05Homework01.ViewModels.客戶資料ViewModel>
+﻿@using X.PagedList;
+@using X.PagedList.Mvc;
+@model  IEnumerable<MVC05Homework01.ViewModels.客戶資料ViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -12,7 +14,7 @@
 @using (Html.BeginForm())
 {
     @Html.DropDownList("分類篩選", (IEnumerable<SelectListItem>)ViewBag.分類, "請選擇分類", htmlAttributes: new { @class = "form-control" })
-    @Html.TextBox("客戶名稱","", new { @class = "form-control" });
+    @Html.TextBox("客戶名稱", "", new { @class = "form-control" });
     <input type="submit" value="Search" />
 }
 @Html.ActionLink("匯出資料", "Download", new { sortOrder = ViewBag.sortOrder, currentSort = ViewBag.CurrentSort })
@@ -71,12 +73,18 @@
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @Html.ActionLink("CreateAccPwd", "CreateAccPwd", new { id = item.Id })
             </td>
         </tr>
     }
 
 </table>
-
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }),
+    new X.PagedList.Mvc.Common.PagedListRenderOptionsBase
+    {
+        LiElementClasses=new [] {"page-item"},
+        PageClasses = new[] {"page-link" }
+    })
 
 @section scripts
 {

@@ -13,6 +13,7 @@ namespace MVC05Homework01.ViewModels
         public int Id { get; set; }
 
         [Required]
+        [Range(1, 5, ErrorMessage = "必填選擇客戶分類")]
         public EnumModel.客戶分類 客戶分類 { get; set; }
 
         [StringLength(50, ErrorMessage = "欄位長度不得大於 50 個字元")]

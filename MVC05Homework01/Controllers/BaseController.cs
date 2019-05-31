@@ -7,6 +7,8 @@ using MVC05Homework01.ActionFilters;
 namespace MVC05Homework01.Controllers
 {
     [Action效能計時器]
+    [HandleError]
+    
     public class BaseController : Controller
     {
 

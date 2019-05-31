@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - 我的 ASP.NET 應用程式</title>
@@ -28,11 +28,28 @@
                     <li>@Html.ActionLink("客戶聯絡人", "Index", "客戶聯絡人")</li>
                     <li>@Html.ActionLink("客戶銀行資訊", "Index", "客戶銀行資訊")</li>
                 </ul>
+
+                <div class="my-2 my-lg-0 text-light text-right">
+                    <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user "></i> @User.Identity.Name</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href='@Url.Action("Logout","Account")'>登出</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div class="container body-content">
-        @RenderBody()
+        <div id="content" class="span10">
+            <ul class="breadcrumb">
+                <li>
+                    <i class="icon-home"></i>
+                    <a href=@Url.Action("Index","Home")>Home</a>
+                    <i class="icon-angle-right"></i>
+                </li>
+                @RenderSection("breadcrumb", required: false)
+            </ul>
+            @RenderBody()
+        </div><!--/.fluid-container-->
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 應用程式</p>

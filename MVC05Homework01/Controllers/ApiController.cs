@@ -9,10 +9,10 @@ namespace MVC05Homework01.Controllers
 {
     public class ApiController : Controller
     {
-        public JsonResult 客戶的聯絡人Email重覆確認(int 客戶Id, string Email)
+        public JsonResult 客戶的聯絡人Email重覆確認(int Id,int 客戶Id, string Email)
         {
             return Json(!RepositoryHelper.Get客戶聯絡人Repository().All()
-                .Any(x => x.客戶Id == 客戶Id && x.Email.Equals(Email))
+                .Any(x => x.客戶Id == 客戶Id && x.Id!= Id && x.Email.Equals(Email))
                 , JsonRequestBehavior.AllowGet);
         }
 

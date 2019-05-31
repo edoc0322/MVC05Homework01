@@ -10,6 +10,9 @@ using MVC05Homework01.ActionFilters;
 using MVC05Homework01.Extensions;
 using MVC05Homework01.Models;
 
+using X.PagedList;
+using X.PagedList.Mvc;
+
 namespace MVC05Homework01.Controllers
 {
     public class 客戶銀行資訊Controller : BaseController
@@ -24,10 +27,10 @@ namespace MVC05Homework01.Controllers
             rep客戶 = RepositoryHelper.Get客戶資料Repository(rep.UnitOfWork);
         }
         // GET: 客戶銀行資訊
-        public ActionResult Index(string 帳戶名稱)
+        public ActionResult Index(string 帳戶名稱,int Page=1)
         {
             var 客戶銀行資訊 = rep.AllOfQuery(帳戶名稱).Include(p => p.客戶資料);
-            return View(客戶銀行資訊.ToList());
+            return View(客戶銀行資訊.ToPagedList(Page,10));
         }
         public FileResult Download()
         {
